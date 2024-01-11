@@ -24,11 +24,17 @@ class Router
             $class = $namespace . $segments;
         } else {
             $class = $namespace . \rtrim($segments[0], 's');
-            $method = $segments[1];
-
-            if(\count($segments) === 3) {
+            if (\count($segments) === 2) {
+                $params = $segments[1];
+            } elseif (\count($segments) === 3) {
+                $method = $segments[1];
                 $params = $segments[2];
             }
+
+        }
+
+        if (isset($_POST) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $method = $_POST['method'];
         }
 
         $class = new ($class . 'Controller')();

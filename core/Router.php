@@ -9,7 +9,7 @@ class Router
         return $_SERVER['REQUEST_URI'];
     }
 
-    private function dispatch()
+    private function dispatch(): void
     {
         $parts = \parse_url($this->getUri());
         $segments = $parts['path'] === '/'
@@ -17,18 +17,29 @@ class Router
             : \explode('/', \trim($parts['path'], '/'));
 
         $namespace = 'app\Controllers\\';
+        $method = 'index';
 
         if ($segments === 'Home') {
-            $class = $namespace . $segments . 'Controller';
-            $method = 'index';
+            $class = $namespace . $segments;
+        } else {
+            $class = $namespace . \rtrim($segments[0], 's');
+
+            if (\count($segments) === 2) {
+                $method = $segments[1];
+            } else if(\count($segments) === 3) {
+                $method = $segments[1];
+                $params = $segments[2];
+            }
         }
 
-        $class = new $class();
-        $class->{$method}();
+        $class = new ($class . 'Controller')();
+
+        !empty($params) ? $class->{$method}($params) : $class->{'index'}();
     }
 
-    public function resolve()
+    public function resolve(): void
     {
         $this->dispatch();
     }
+
 }

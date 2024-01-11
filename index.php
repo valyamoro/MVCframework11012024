@@ -8,6 +8,5 @@ error_reporting(-1);
 session_start();
 
 $router = new Router();
+
 $router->resolve();
-
-

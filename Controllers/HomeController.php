@@ -2,10 +2,9 @@
 
 namespace app\Controllers;
 
-class HomeController
+use app\core\Controller;
+
+class HomeController extends Controller
 {
-    public function index()
-    {
-        echo 'home';
-    }
+
 }

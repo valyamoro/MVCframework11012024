@@ -2,13 +2,10 @@
 
 namespace app\Controllers;
 
-class UserController
-{
-    public function index()
-    {
-        echo 'index';
-    }
+use app\core\Controller;
 
+class UserController extends Controller
+{
     public function edit(int $id)
     {
         var_dump($id);

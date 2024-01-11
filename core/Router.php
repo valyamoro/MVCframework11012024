@@ -18,16 +18,15 @@ class Router
 
         $namespace = 'app\Controllers\\';
         $method = 'index';
+        $params = 'index';
 
         if ($segments === 'Home') {
             $class = $namespace . $segments;
         } else {
             $class = $namespace . \rtrim($segments[0], 's');
+            $method = $segments[1];
 
-            if (\count($segments) === 2) {
-                $method = $segments[1];
-            } else if(\count($segments) === 3) {
-                $method = $segments[1];
+            if(\count($segments) === 3) {
                 $params = $segments[2];
             }
         }

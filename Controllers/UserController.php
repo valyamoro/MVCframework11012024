@@ -3,12 +3,25 @@
 namespace app\Controllers;
 
 use app\core\Controller;
+use app\Models\UserModel;
 
 class UserController extends Controller
 {
-    public function add()
+    public function add(array $data)
     {
-        return 'add';
+        $user = new UserModel();
+
+        if ($data['passwordConfirm'] === $data['password']) {
+            $data = [
+                'firstName' => $data['firstName'],
+                'lastName' => $data['lastName'],
+                'password' => $data['password'],
+                'email' => $data['email'],
+            ];
+            $user->insert($data);
+        }
+
+        header('Location: /');
     }
 
     public function edit(int $id)

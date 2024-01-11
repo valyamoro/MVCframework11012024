@@ -35,6 +35,7 @@ class Router
 
         if (isset($_POST) && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $method = $_POST['method'];
+            $params = $_POST;
         }
 
         $class = new ($class . 'Controller')();

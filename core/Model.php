@@ -12,7 +12,21 @@ class Model
 
     public static function connectionDB(): PDODriver
     {
-        $configuration = include_once __DIR__ . '/../config/db.php';
+//        $configuration = (array)include_once __DIR__ . '/../config/db.php';
+
+        $configuration = [
+            'port' => 'mysql',
+            'host' => 'localhost',
+            'dbname' => 'books2',
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+            'options' => [
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+            ],
+        ];
+
         $dataBaseConfiguration = new DatabaseConfiguration(...$configuration);
         $dataBasePDOConnection = new DatabasePDOConnection($dataBaseConfiguration);
 

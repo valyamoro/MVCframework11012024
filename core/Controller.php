@@ -6,7 +6,8 @@ class Controller
 {
     public function index(string $view, array $params = []): void
     {
-        View::render($view, $params);
+        $render = new View();
+        $render->render($view, $params);
     }
 
 }

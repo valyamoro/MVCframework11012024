@@ -1,5 +1,7 @@
 <?php
 
+namespace app\Database;
+
 class PDODriver
 {
     private ?\PDOStatement $sth;

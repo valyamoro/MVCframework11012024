@@ -1,5 +1,7 @@
 <?php
 
+namespace app\Database;
+
 final class DatabaseConfiguration
 {
     public function __construct(

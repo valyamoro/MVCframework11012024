@@ -1,5 +1,7 @@
 <?php
 
+namespace app\Database;
+
 class DatabasePDOConnection implements DatabaseConnection
 {
     public function __construct(
@@ -20,7 +22,7 @@ class DatabasePDOConnection implements DatabaseConnection
     private function getDSN(): string
     {
         return \sprintf(
-            '%s:host=%s,dbname=%s,charset=%s',
+            '%s:host=%s;dbname=%s;charset=%s',
             $this->configuration->getPort(),
             $this->configuration->getHost(),
             $this->configuration->getDbname(),

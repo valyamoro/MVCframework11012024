@@ -4,7 +4,7 @@ namespace app\Models;
 
 use app\core\Model;
 
-class User extends Model
+class UserModel extends Model
 {
 
 }

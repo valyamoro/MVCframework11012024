@@ -3,13 +3,12 @@
 return [
     'port' => 'mysql',
     'host' => 'localhost',
-    'dbname' => 'db_name',
+    'dbname' => 'books2',
     'username' => 'root',
     'password' => '',
-    'charset' => 'utf8mb4',
+    'charset' => 'utf8',
     'options' => [
         \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
         \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-        \PDO::MYSQL_ATTR_INIT_COMMAND => 'Set names \'utf\'',
     ],
 ];

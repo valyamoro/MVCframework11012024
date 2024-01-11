@@ -2,13 +2,13 @@
 
 namespace app\core;
 
-use DatabaseConfiguration;
-use DatabasePDOConnection;
-use PDODriver;
+use app\Database\DatabaseConfiguration;
+use app\Database\DatabasePDOConnection;
+use app\Database\PDODriver;
 
 class Model
 {
-    protected const TABLE_NAME = '';
+    protected const TABLE_NAME = 'authors';
 
     public static function connectionDB(): PDODriver
     {

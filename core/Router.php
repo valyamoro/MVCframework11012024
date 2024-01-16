@@ -2,6 +2,11 @@
 
 namespace app\core;
 
+use app\core\Http\Request;
+use app\Database\DatabaseConfiguration;
+use app\Database\DatabasePDOConnection;
+use app\Database\PDODriver;
+
 class Router
 {
     private function getUri(): string
@@ -9,7 +14,7 @@ class Router
         return $_SERVER['REQUEST_URI'];
     }
 
-    private function dispatch(): void
+    private function dispatch(): string
     {
         $parts = \parse_url($this->getUri());
         $segments = $parts['path'] === '/'
@@ -24,28 +29,63 @@ class Router
             $class = $namespace . $segments;
         } else {
             $class = $namespace . \rtrim($segments[0], 's');
-            if (\count($segments) === 2) {
-                $params = $segments[1];
-            } elseif (\count($segments) === 3) {
+            if (\count($segments) === 3) {
                 $method = $segments[1];
                 $params = $segments[2];
+            } elseif (\count($segments) === 4) {
+                $method = $segments[1];
+                $params = [];
+                $params['tableName'] = $segments[2];
+                $params['id'] = $segments[3];
+                $params['view'] = $segments[1];
+            } else {
+                $params = $segments[0];
             }
-
         }
 
-        if (isset($_POST) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $method = $_POST['method'];
-            $params = $_POST;
+        $connectionDB = $this->connectionDB();
+
+        $namespace = "app\Services\\{$segments[0]}";
+        $segments[0] = \rtrim($segments[0], 's');
+
+        if (\is_array($segments)) {
+            if (\count($segments) === 1) {
+                $repository = new ("{$namespace}\Repositories\\" . $segments[0]. 'Repository')($connectionDB);
+                $service = new ("{$namespace}\\" .$segments[0] . 'Service')($repository);
+            } else {
+                $repository = new ("{$namespace}\Repositories\\" . $segments[1] . $segments[0] . 'Repository')($connectionDB);
+                $service = new ("{$namespace}\\{$segments[1]}" . $segments[0] . 'Service')($repository);
+            }
+        } else {
+            $repository = new ("app\Services\\{$segments}\\Repositories\\" . $segments . 'Repository')($connectionDB);
+            $service = new ("app\Services\\{$segments}\\{$segments}" . 'Service')($repository);
         }
 
-        $class = new ($class . 'Controller')();
+        $request = new Request();
 
-        !empty($params) ? $class->{$method}($params) : $class->{'index'}();
+        $class = (new ($class . 'Controller')($connectionDB, $request, $service));
+
+        if (is_array($params)) {
+            return $class->{$method}(...$params);
+        } else {
+            return $class->{$method}($params);
+        }
+
+    }
+
+    private function connectionDB(): PDODriver
+    {
+        $configuration = require __DIR__ . '/../config/db.php';
+
+        $dataBaseConfiguration = new DatabaseConfiguration(...$configuration);
+        $dataBasePDOConnection = new DatabasePDOConnection($dataBaseConfiguration);
+
+        return new PDODriver($dataBasePDOConnection->connection());
     }
 
     public function resolve(): void
     {
-        $this->dispatch();
+        echo $this->dispatch();
     }
 
 }

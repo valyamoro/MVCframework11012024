@@ -50,8 +50,8 @@ class Router
 
         if (\is_array($segments)) {
             if (\count($segments) === 1) {
-                $repository = new ("{$namespace}\Repositories\\" . $segments[0]. 'Repository')($connectionDB);
-                $service = new ("{$namespace}\\" .$segments[0] . 'Service')($repository);
+                $repository = new ("{$namespace}\Repositories\\" . $segments[0] . 'Repository')($connectionDB);
+                $service = new ("{$namespace}\\" . $segments[0] . 'Service')($repository);
             } else {
                 $repository = new ("{$namespace}\Repositories\\" . $segments[1] . $segments[0] . 'Repository')($connectionDB);
                 $service = new ("{$namespace}\\{$segments[1]}" . $segments[0] . 'Service')($repository);

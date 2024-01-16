@@ -10,8 +10,8 @@ class ShowProductService extends BaseService
     {
         $result = $this->repository->getItem($id, $tableName);
 
-        if (empty($result)) {
-            $result[0] = 'Такого товара не существует!' . "\n";
+        if (\is_null($result)) {
+            $result['warning'] = 'Такого товара не существует!' . "\n";
         }
 
         return $result;

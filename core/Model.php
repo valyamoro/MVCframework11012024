@@ -72,7 +72,7 @@ abstract class Model
         return $this->connection->prepare($query)->execute()->fetchAll();
     }
 
-    public function getById(int $id): array
+    public function getById(int $id): ?array
     {
         $query = 'select * from ' . static::TABLE_NAME . ' where id=? limit 1';
 

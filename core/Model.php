@@ -6,32 +6,15 @@ use app\Database\DatabaseConfiguration;
 use app\Database\DatabasePDOConnection;
 use app\Database\PDODriver;
 
-class Model
+abstract class Model
 {
-    protected const TABLE_NAME = 'authors';
+    protected const TABLE_NAME = '';
 
-    public static function connectionDB(): PDODriver
-    {
-//        $configuration = (array)include_once __DIR__ . '/../config/db.php';
-
-        $configuration = [
-            'port' => 'mysql',
-            'host' => 'localhost',
-            'dbname' => 'books2',
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8',
-            'options' => [
-                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            ],
-        ];
-
-        $dataBaseConfiguration = new DatabaseConfiguration(...$configuration);
-        $dataBasePDOConnection = new DatabasePDOConnection($dataBaseConfiguration);
-
-        return new PDODriver($dataBasePDOConnection->connection());
-    }
+    public const RULE_REQUIRED = 'required';
+    public const RULE_EMAIL = 'email';
+    public const RULE_MIN = 'min';
+    public const RULE_MAX = 'max';
+    public const RULE_MATCH = 'match';
 
     public function loadData(array $data): void
     {
@@ -42,16 +25,21 @@ class Model
         }
     }
 
+    public function __construct(
+        private readonly PDODriver $connection,
+    ) {}
+
     public function insert(array $data): int
     {
         $placeHolders = \str_repeat('?, ', \count($data) - 1) . '?';
 
         $query = 'insert into ' . static::TABLE_NAME . '(' . \implode(', ',
                 \array_keys($data)) . ') values (' . $placeHolders . ')';
+        echo $query;
 
-        self::connectionDB()->prepare($query)->execute(\array_values($data));
+        $this->connection->prepare($query)->execute(\array_values($data));
 
-        return self::connectionDB()->lastInsertId();
+        return $this->connection->lastInsertId();
     }
 
     public function update(array $data, int $id): bool
@@ -63,25 +51,32 @@ class Model
 
         $query = 'UPDATE ' . static::TABLE_NAME . ' set ' . $params . ' where id=:id limit 1';
 
-        self::connectionDB()->prepare($query);
+        $this->connection->prepare($query);
 
-        return self::connectionDB()->rowCount();
+        return $this->connection->rowCount();
     }
 
     public function delete(int $id): bool
     {
         $query = 'delete from ' . static::TABLE_NAME . ' where id=? limit 1';
 
-        self::connectionDB()->prepare($query)->execute([$id]);
+        $this->connection->prepare($query)->execute([$id]);
 
-        return self::connectionDB()->rowCount();
+        return $this->connection->rowCount();
     }
 
     public function getAll(): array
     {
         $query = 'select * from ' . static::TABLE_NAME;
 
-        return self::connectionDB()->prepare($query)->execute()->fetchAll();
+        return $this->connection->prepare($query)->execute()->fetchAll();
+    }
+
+    public function getById(int $id): array
+    {
+        $query = 'select * from ' . static::TABLE_NAME . ' where id=? limit 1';
+
+        return $this->connection->prepare($query)->execute([$id])->fetch();
     }
 
 }

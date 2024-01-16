@@ -24,12 +24,12 @@ class PDODriver
         return $this;
     }
 
-    public function fetch(): array
+    public function fetch(): ?array
     {
         $result = $this->sth->fetch();
         $this->sth = null;
 
-        return $result;
+        return $result ?: null;
     }
 
     public function fetchAll(): array

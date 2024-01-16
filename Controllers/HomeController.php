@@ -6,5 +6,4 @@ use app\core\Controller;
 
 class HomeController extends Controller
 {
-
 }

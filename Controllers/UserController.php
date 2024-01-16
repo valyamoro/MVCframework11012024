@@ -7,26 +7,27 @@ use app\Models\UserModel;
 
 class UserController extends Controller
 {
-    public function add(array $data)
+    public function add()
     {
-        $user = new UserModel();
+        $data = $this->request->getPost();
 
-        if ($data['passwordConfirm'] === $data['password']) {
+        if ($data['password'] === $data['passwordConfirm']) {
             $data = [
+                'email' => $data['email'],
                 'firstName' => $data['firstName'],
                 'lastName' => $data['lastName'],
                 'password' => $data['password'],
-                'email' => $data['email'],
             ];
-            $user->insert($data);
         }
 
-        header('Location: /');
+        $this->service->add($data);
     }
 
-    public function edit(int $id)
+    public function read(int $id): string
     {
-        var_dump($id);
+        $user = $this->service->getById($id);
+
+        return $user->getId();
     }
 
 }

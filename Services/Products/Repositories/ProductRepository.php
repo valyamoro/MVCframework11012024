@@ -7,11 +7,11 @@ use app\Services\BaseRepository;
 
 class ProductRepository extends BaseRepository
 {
-    public function getAll(): array
-    {
-        $product = new ProductModel($this->connection);
+    protected const TABLE_NAME = 'productsCategory';
 
-        return $product->getAll();
+    public function getProducts(): array
+    {
+        return $this->getAll();
     }
 
 }

@@ -7,12 +7,12 @@ use app\Services\BaseService;
 
 class PhoneProductService extends BaseService
 {
-    public function getAll(): array
+    public function getProducts(): array
     {
-        $result = $this->repository->getAll();
+        $result = $this->repository->getPhones();
 
         if (empty($result)) {
-            $result[0] = 'В базе данных нету товаров!' . "\n";
+            $result[0] = 'В базе данных нету телефонов!' . "\n";
         } else {
             foreach ($result as $key => $value) {
                 $result[$key]['url'] = '/products' . '/' . $value['id'];

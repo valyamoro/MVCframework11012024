@@ -7,12 +7,12 @@ use app\Services\BaseService;
 
 class ProductService extends BaseService
 {
-    public function getAll(): array
+    public function getProducts(): array
     {
-        $result = $this->repository->getAll();
+        $result = $this->repository->getProducts();
 
         if (empty($result)) {
-            $result[0] = 'В базе данных нету товаров!' . "\n";
+            $_SESSION['warning'] = 'В базе данных нету товаров!' . "\n";
         }
 
         return $result;

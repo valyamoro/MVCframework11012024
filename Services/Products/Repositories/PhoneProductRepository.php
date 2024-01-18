@@ -7,10 +7,11 @@ use app\Services\BaseRepository;
 
 class PhoneProductRepository extends BaseRepository
 {
-    public function getAll(): array
-    {
-        $phoneProduct = new PhoneProductModel($this->connection);
+    public const TABLE_NAME = 'phones2';
 
-        return $phoneProduct->getAll();
+    public function getPhones(): array
+    {
+        return $this->getAll();
     }
+
 }

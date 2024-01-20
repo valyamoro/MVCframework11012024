@@ -18,7 +18,6 @@ abstract class BaseRepository
 
         $query = 'insert into ' . static::TABLE_NAME . '(' . \implode(', ',
                 \array_keys($data)) . ') values (' . $placeHolders . ')';
-        echo $query;
 
         $this->connection->prepare($query)->execute(\array_values($data));
 

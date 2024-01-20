@@ -7,20 +7,13 @@ use app\Models\UserModel;
 
 class UserController extends Controller
 {
-    public function add()
+    public function index(string $view, array $params = []): string
     {
         $data = $this->request->getPost();
 
-        if ($data['password'] === $data['passwordConfirm']) {
-            $data = [
-                'email' => $data['email'],
-                'firstName' => $data['firstName'],
-                'lastName' => $data['lastName'],
-                'password' => $data['password'],
-            ];
-        }
-
         $this->service->add($data);
+
+        return $this->view->render($view, $params);
     }
 
     public function read(int $id): string

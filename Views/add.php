@@ -1,3 +1,4 @@
+РЕГИСТРАЦИЯ
 <div class="container">
     <h1>Create an account</h1>
     <form action="" method="post">

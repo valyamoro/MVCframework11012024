@@ -1,5 +1,6 @@
-<?php if (isset($product['warning'])): ?>
-    <?php echo $product['warning']; ?>
+<?php if (!empty($_SESSION['warning'])): ?>
+    <?php echo '<p class="msg"> ' . nl2br($_SESSION['warning']) . ' </p>'; ?>
+    <?php unset($_SESSION['warning']); ?>
 <?php else: ?>
     <?php echo $product['id']; ?>
     <?php echo $product['title']; ?>

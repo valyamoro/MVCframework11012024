@@ -14,9 +14,9 @@ class ProductController extends Controller
         return $this->view->render($view, $data);
     }
 
-    public function show(string $view, string $id, string $tableName)
+    public function show(string $view, string $category, string $id)
     {
-        $data['product'] = $this->service->getItem($id, $tableName);
+        $data['product'] = $this->service->getItem($category, $id);
 
         return $this->view->render($view, $data);
     }

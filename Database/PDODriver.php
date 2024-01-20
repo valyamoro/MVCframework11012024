@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\Database;
 
@@ -29,7 +30,7 @@ class PDODriver
         $result = $this->sth->fetch();
         $this->sth = null;
 
-        return $result ?: null;
+        return $result !== false ? $result : [];
     }
 
     public function fetchAll(): array

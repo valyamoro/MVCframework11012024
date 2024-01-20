@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\Services\Products;
 
@@ -15,7 +16,7 @@ class PhoneProductService extends BaseService
             $result[0] = 'В базе данных нету телефонов!' . "\n";
         } else {
             foreach ($result as $key => $value) {
-                $result[$key]['url'] = '/products/category' . '/' . $value['id'];
+                $result[$key]['url'] = '/products/category/phones/show' . '/' . $value['id'];
             }
         }
 

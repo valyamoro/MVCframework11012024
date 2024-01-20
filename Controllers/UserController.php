@@ -11,16 +11,9 @@ class UserController extends Controller
     {
         $data = $this->request->getPost();
 
-        $this->service->add($data);
+        $this->service->{$view}($data);
 
         return $this->view->render($view, $params);
-    }
-
-    public function read(int $id): string
-    {
-        $user = $this->service->getById($id);
-
-        return $user->getId();
     }
 
 }

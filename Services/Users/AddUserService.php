@@ -20,7 +20,7 @@ class AddUserService extends BaseService
                     'password' => $data['password'],
                 ];
                 $result = $this->repository->add($data);
-                
+
                 if ($result) {
                     $_SESSION['success'] = 'Вы успешно зарегистрировались!';
                     header('Location: /');

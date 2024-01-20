@@ -38,7 +38,7 @@
             <input type="password" name="passwordConfirm"  class="form-control" id="passwordConfirm" aria-describedby="passwordConfirm">
         </div>
 
-        <button type="submit" name="method" value="add" class="btn btn-primary">Регистрация</button>
+        <button type="submit" name="method" class="btn btn-primary">Регистрация</button>
     </form>
 </div>
 

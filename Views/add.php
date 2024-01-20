@@ -1,6 +1,9 @@
-РЕГИСТРАЦИЯ
+<?php if (!empty($_SESSION['warning'])): ?>
+    <?php echo '<p class="msg"> ' . nl2br($_SESSION['warning']) . ' </p>'; ?>
+    <?php unset($_SESSION['warning']); ?>
+<?php endif; ?>
 <div class="container">
-    <h1>Create an account</h1>
+    <h1>Регистрация</h1>
     <form action="" method="post">
         <div class="row">
             <div class="col">

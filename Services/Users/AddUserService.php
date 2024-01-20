@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\Services\Users;
 
@@ -18,10 +19,18 @@ class AddUserService extends BaseService
                     'lastName' => $data['lastName'],
                     'password' => $data['password'],
                 ];
-                $this->repository->insert($data);
+                $result = $this->repository->add($data);
+                
+                if ($result) {
+                    $_SESSION['success'] = 'Вы успешно зарегистрировались!';
+                    header('Location: /');
+                } else {
+                    $_SESSION['warning'] = 'Ошибка регистрации, пожалуйста повторите попытку' . "\n";
+                }
+            } else {
+                $_SESSION['warning'] = 'Пароли не совпадают!' . "\n";
             }
         }
-
     }
 
 }

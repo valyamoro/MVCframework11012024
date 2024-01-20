@@ -9,4 +9,5 @@ abstract class BaseService
         protected BaseRepository $repository,
     ) {
     }
+
 }

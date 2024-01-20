@@ -29,6 +29,7 @@ class Router
             $class = $namespace . $segments;
         } else {
             $class = $namespace . \rtrim($segments[0], 's');
+
             if (\count($segments) === 3) {
                 $method = $segments[1];
                 $params = $segments[0];
@@ -68,7 +69,6 @@ class Router
         }
 
         $request = new Request();
-
         $class = (new ($class . 'Controller')($connectionDB, $request, $service));
 
         if (is_array($params)) {

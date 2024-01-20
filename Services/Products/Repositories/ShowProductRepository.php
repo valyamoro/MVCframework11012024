@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\Services\Products\Repositories;
 
@@ -6,12 +7,13 @@ use app\Services\BaseRepository;
 
 class ShowProductRepository extends BaseRepository
 {
-    public function getItem(int $id, string $tableName)
+    public function getItem(string $category, int $id)
     {
-        $class = 'app\\Models\\' . $tableName . 'ProductModel';
-        $product = new $class($this->connection);
+        $query = 'select * from ' .  $category . ' where id=?';
 
-        return $product->getById($id);
+        $this->connection->prepare($query)->execute([$id]);
+
+        return $this->connection->fetch();
     }
 
 }

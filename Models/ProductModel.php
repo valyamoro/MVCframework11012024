@@ -6,10 +6,6 @@ use app\core\Model;
 
 class ProductModel extends Model
 {
-    protected const TABLE_NAME = 'productsCategory';
-
-    protected array $products;
-
     protected int $id;
     protected string $title;
     protected string $price;

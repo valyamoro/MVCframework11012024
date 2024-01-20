@@ -9,7 +9,7 @@ class ProductController extends Controller
 {
     public function index(string $view, array $params = []): string
     {
-        $data['products'] = $this->service->getProducts();
+        $data['products'] = $this->service->getItems();
 
         return $this->view->render($view, $data);
     }

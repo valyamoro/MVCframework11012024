@@ -1,4 +1,4 @@
-ПРОДУКТЫ
+<h1>КАТЕГОРИИ</h1>
 <?php if (!empty($_SESSION['warning'])): ?>
     <?php echo '<p class="msg"> ' . nl2br($_SESSION['warning']) . ' </p>'; ?>
     <?php unset($_SESSION['warning']); ?>

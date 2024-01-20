@@ -31,7 +31,7 @@ class Router
             $class = $namespace . \rtrim($segments[0], 's');
             if (\count($segments) === 3) {
                 $method = $segments[1];
-                $params = $segments[2];
+                $params = $segments[0];
             } elseif (\count($segments) === 4) {
                 $method = $segments[1];
                 $params = [];
@@ -52,9 +52,15 @@ class Router
             if (\count($segments) === 1) {
                 $repository = new ("{$namespace}\Repositories\\" . $segments[0] . 'Repository')($connectionDB);
                 $service = new ("{$namespace}\\" . $segments[0] . 'Service')($repository);
-            } else {
+            } elseif (\count($segments) === 2) {
                 $repository = new ("{$namespace}\Repositories\\" . $segments[1] . $segments[0] . 'Repository')($connectionDB);
                 $service = new ("{$namespace}\\{$segments[1]}" . $segments[0] . 'Service')($repository);
+                $params = $segments[1];
+            } elseif (\count($segments) === 3) {
+                $repository = new ("{$namespace}\Repositories\\" . \rtrim($segments[2], 's') . \rtrim($segments[0],
+                        's') . 'Repository')($connectionDB);
+                $service = new ("{$namespace}\\" . \rtrim($segments[2], 's') . $segments[0] . 'Service')($repository);
+                $method = 'index';
             }
         } else {
             $repository = new ("app\Services\\{$segments}\\Repositories\\" . $segments . 'Repository')($connectionDB);
